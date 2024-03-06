@@ -4,7 +4,6 @@ import dat3.security.entity.Role;
 import dat3.security.entity.UserWithRoles;
 import dat3.security.repository.RoleRepository;
 import dat3.security.repository.UserWithRolesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +37,7 @@ public class SetupDevUsers implements ApplicationRunner {
         roleRepository.save(new Role("ADMIN"));
     }
 
-     /*****************************************************************************************
+    /*****************************************************************************************
      IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      NEVER  COMMIT/PUSH CODE WITH DEFAULT CREDENTIALS FOR REAL
      iT'S ONE OF THE TOP SECURITY FLAWS YOU CAN DO

@@ -3,8 +3,12 @@ package dat3.recipe.api;
 import dat3.recipe.dto.RecipeDto;
 import dat3.recipe.service.RecipeService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
@@ -36,12 +40,24 @@ public class RecipeController {
     }
 
     @PutMapping(path = "/{id}")
-    public RecipeDto addRecipe(@RequestBody RecipeDto request,@PathVariable int id) {
-        return recipeService.editRecipe(request,id);
+    public RecipeDto editRecipe(@RequestBody RecipeDto request,@PathVariable int id, @AuthenticationPrincipal UserDetails userDetails) throws AccessDeniedException {
+        RecipeDto existingRecipe = recipeService.getRecipeById(id);
+        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")) ||
+                existingRecipe.getOwner().equals(userDetails.getUsername())) {
+            return recipeService.editRecipe(request,id);
+        } else {
+            throw new AccessDeniedException("Access is denied");
+        }
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteRecipe(@PathVariable int id) {
-        return recipeService.deleteRecipe(id);
+    public ResponseEntity deleteRecipe(@PathVariable int id, @AuthenticationPrincipal UserDetails userDetails) throws AccessDeniedException {
+        RecipeDto existingRecipe = recipeService.getRecipeById(id);
+        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")) ||
+                existingRecipe.getOwner().equals(userDetails.getUsername())) {
+            return recipeService.deleteRecipe(id);
+        } else {
+            throw new AccessDeniedException("Access is denied");
+        }
     }
 }

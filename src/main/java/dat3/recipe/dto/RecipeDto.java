@@ -38,4 +38,8 @@ public class RecipeDto {
             this.edited = r.getEdited();
         }
     }
+
+    public Object getOwner() {
+        return null;
+    }
 }

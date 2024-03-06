@@ -74,9 +74,22 @@ public class SecurityConfig {
             //.requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/api/test/user-only")).hasAuthority("USER")
             //.requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/api/test/admin-only")).hasAuthority("ADMIN")
 
+            //Allow Get to public endpoints
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/info")).permitAll()
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/categories")).permitAll()
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/recipes/**")).permitAll()
+
+            // Require auth for USER to create, edit and delete recipes
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/recipes")).hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.PUT, "/recipes/**")).hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.DELETE, "/recipes/**")).hasAnyAuthority("USER", "ADMIN")
+
+            // Only admin can create new categories
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/categories")).hasAuthority("ADMIN")
+
             //Use this to completely disable security (Will not work if endpoints has been marked with @PreAuthorize)
-            .requestMatchers(mvcMatcherBuilder.pattern("/**")).permitAll());
-            //.anyRequest().authenticated());
+            //.requestMatchers(mvcMatcherBuilder.pattern("/**")).permitAll());
+            .anyRequest().authenticated());
 
     return http.build();
   }
@@ -109,5 +122,4 @@ public class SecurityConfig {
   public JwtEncoder jwtEncoder() {
     return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey()));
   }
-
 }
