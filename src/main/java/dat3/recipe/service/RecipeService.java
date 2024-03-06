@@ -76,6 +76,4 @@ public class RecipeService {
         recipeRepository.delete(recipe);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
-
 }
