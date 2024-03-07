@@ -2,4 +2,4 @@
 
 This repository contains my solutions for the  React Router and Security Recipes exercise.
 
-Check out the [deployed website](https://dunno.com)!
+Check out the [deployed website](https://sletmigsenere.azurewebsites.net/)!
