@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -35,8 +36,9 @@ public class RecipeController {
     }
 
     @PostMapping
-    public RecipeDto addRecipe(@RequestBody RecipeDto request) {
-        return recipeService.addRecipe(request);
+    public RecipeDto addRecipe(@RequestBody RecipeDto request, Principal p) {
+        String userName = p.getName();
+        return recipeService.addRecipe(request,userName );
     }
 
     @PutMapping(path = "/{id}")

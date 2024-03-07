@@ -23,6 +23,7 @@ public class RecipeDto {
     private String source;
     private LocalDateTime created;
     private LocalDateTime edited;
+    private Object owner;
 
     public RecipeDto(Recipe r, boolean includeAll) {
         this.id = r.getId();
@@ -33,13 +34,14 @@ public class RecipeDto {
         this.thumb = r.getThumb();
         this.source = r.getSource();
         this.category = r.getCategory().getName();
+        this.owner = r.getOwner();
         if(includeAll){
             this.created = r.getCreated();
             this.edited = r.getEdited();
         }
     }
 
-    public Object getOwner() {
+    public String getOwner() {
         return null;
     }
 }
