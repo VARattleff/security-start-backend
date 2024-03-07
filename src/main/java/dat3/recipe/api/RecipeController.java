@@ -41,25 +41,12 @@ public class RecipeController {
         return recipeService.addRecipe(request,userName );
     }
 
-    @PutMapping(path = "/{id}")
-    public RecipeDto editRecipe(@RequestBody RecipeDto request,@PathVariable int id, @AuthenticationPrincipal UserDetails userDetails) throws AccessDeniedException {
-        RecipeDto existingRecipe = recipeService.getRecipeById(id);
-        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")) ||
-                existingRecipe.getOwner().equals(userDetails.getUsername())) {
-            return recipeService.editRecipe(request,id);
-        } else {
-            throw new AccessDeniedException("Access is denied");
-        }
+    public RecipeDto addRecipe(@RequestBody RecipeDto request,@PathVariable int id) {
+        return recipeService.editRecipe(request,id);
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteRecipe(@PathVariable int id, @AuthenticationPrincipal UserDetails userDetails) throws AccessDeniedException {
-        RecipeDto existingRecipe = recipeService.getRecipeById(id);
-        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")) ||
-                existingRecipe.getOwner().equals(userDetails.getUsername())) {
-            return recipeService.deleteRecipe(id);
-        } else {
-            throw new AccessDeniedException("Access is denied");
-        }
+    public ResponseEntity deleteRecipe(@PathVariable int id) {
+        return recipeService.deleteRecipe(id);
     }
 }

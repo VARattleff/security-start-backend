@@ -1,5 +1,5 @@
 --CREATE DATABASE IF NOT EXISTS recipes;
-USE recipes;
+USE rec_db;
 
 
 INSERT INTO categories (name,created,edited) VALUES ('Beef',NOW(),NOW());

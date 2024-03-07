@@ -20,12 +20,6 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    /*@GetMapping
-    public List<String> getAllCategories() {
-        return categoryService.getAllCategories();
-    }
-*/
-
     //Cache for 1 minutes
     @GetMapping
     public ResponseEntity<List<String>> getAllCategories() {
